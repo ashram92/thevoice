@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
-from rest_framework import status
-from rest_framework.generics import GenericAPIView
+from rest_framework import status, serializers
+from rest_framework.generics import GenericAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
+
+from voice_app.accounts.models import User
 
 
 class UserLoginView(GenericAPIView):
@@ -35,3 +37,26 @@ class UserLogoutView(GenericAPIView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return Response(status=status.HTTP_200_OK)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_admin',
+            'is_mentor',
+        )
+
+    is_admin = serializers.BooleanField(source='is_superuser')
+
+
+class ProfileView(RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user

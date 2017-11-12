@@ -1,7 +1,6 @@
 from django.conf.urls import url, include
 
-from voice_app.accounts.views import UserLogoutView, UserLoginView
-
+from voice_app.accounts.views import UserLogoutView, UserLoginView, ProfileView
 
 api_urlpatterns = [
     url(r'^login/$',
@@ -9,7 +8,10 @@ api_urlpatterns = [
         name='api_login'),
     url(r'^logout/$',
         UserLogoutView.as_view(),
-        name='api_login')
+        name='api_login'),
+    url(r'^profile/$',
+        ProfileView.as_view(),
+        name='api_profile')
 ]
 
 urlpatterns = [
