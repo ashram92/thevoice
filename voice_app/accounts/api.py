@@ -8,8 +8,8 @@ def create_mentor(username: str, first_name: str, last_name: str,
     user = User(username=username,
                 first_name=first_name,
                 last_name=last_name,
-                password=password,
                 is_mentor=True)
+    user.set_password(password)
 
     # May throw IntegrityError
     user.save(force_insert=True)

@@ -30,11 +30,14 @@ def create_activity(candidate, song_name, performance_date):
 
 def score_activity(activity, mentor, score):
     if MIN_SCORE <= score <= MAX_SCORE:
-        raise ValueError('Score is out of range. '
-                         'Min: {} | Max: {}'.format(MIN_SCORE, MAX_SCORE))
 
-    score = ActivityScore(activity=activity,
-                          mentor=mentor,
-                          score=score)
-    score.save()
-    return score
+        score = ActivityScore(activity=activity,
+                              mentor=mentor,
+                              score=score)
+        score.save()
+        return score
+    else:
+        raise ValueError('Score `{}` is out of range. '
+                         'Min: {} | Max: {}'.format(score, MIN_SCORE,
+                                                    MAX_SCORE))
+
