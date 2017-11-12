@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('voice_app.accounts.urls',
                                namespace='accounts')),
-
+    url(r'^candidates/', include('voice_app.candidates.urls',
+                                 namespace='candidates')),
 ]
