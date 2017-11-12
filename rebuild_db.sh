@@ -18,5 +18,5 @@ echo "from voice_app.accounts.models import User; User.objects.create_superuser(
 
 echo "Loading mentors, teams, candidates, activities..."
 ./manage.py load_test_candidates
--0
+
 echo "Database provisioned!"
