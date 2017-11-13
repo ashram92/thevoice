@@ -11,6 +11,22 @@ const LOGOUT_URL = BASE_URL + '/accounts/api/logout/';
 const PROFILE_URL = BASE_URL + '/accounts/api/profile/';
 
 
+class Profile extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                You are logged in!
+                <button onClick={this.props.handleLogout}>Logout</button>
+            </div>
+        );
+    }
+};
+
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -62,19 +78,18 @@ class App extends Component {
     }
 
   render() {
-        if (this.checkLoggedIn()){
-            return (
-                <div>
-                    You are logged in!
-                    <button onClick={this.handleLogout}>Logout</button>
-                </div>
-            )
-        }
-    return (
-      <div className="App">
-        <Login handleSubmit={this.handleLogin}/>
-      </div>
-    );
+      var component;
+      if (this.checkLoggedIn()) {
+          component = <Profile handleLogout={this.handleLogout}/>;
+      } else {
+          component = <Login handleSubmit={this.handleLogin}/>;
+      }
+
+      return (
+          <div className="App">
+              {component}
+          </div>
+      );
   }
 }
 
