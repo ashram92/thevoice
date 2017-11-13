@@ -20,7 +20,6 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        console.log('Hi0');
         axios.get(PROFILE_URL).then(response => {
             this.setState(state => ({
                 profile: {
@@ -37,6 +36,8 @@ class Profile extends Component {
            if (error.status === 403) {
                alert('You are not logged in');
                this.props.invalidateSession();
+           } else {
+               alert('Error occured! Please refresh the page');
            }
         });
     }
