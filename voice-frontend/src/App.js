@@ -9,7 +9,7 @@ const BASE_URL = ''; // 'http://127.0.0.1:8000';
 const LOGIN_URL = BASE_URL + '/accounts/api/login/';
 const LOGOUT_URL = BASE_URL + '/accounts/api/logout/';
 const PROFILE_URL = BASE_URL + '/accounts/api/profile/';
-
+const TEAMS_URL = BASE_URL + '/candidates/api/teams'
 
 class Profile extends Component {
     constructor(props) {
