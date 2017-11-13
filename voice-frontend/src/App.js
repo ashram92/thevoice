@@ -14,12 +14,44 @@ const PROFILE_URL = BASE_URL + '/accounts/api/profile/';
 class Profile extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            profile: null
+        };
+    }
+
+    componentDidMount() {
+        console.log('Hi0');
+        axios.get(PROFILE_URL).then(response => {
+            this.setState(state => ({
+                profile: {
+                    userId: response.data.id,
+                    username: response.data.username,
+                    firstName: response.data.first_name,
+                    lastName: response.data.last_name,
+                    isAdmin: response.data.is_admin,
+                    isMentor: response.data.is_mentor
+                }
+            }));
+            console.log(this.state);
+        }).catch(error => {
+           if (error.status === 403) {
+               alert('You are not logged in');
+               this.props.invalidateSession();
+           }
+        });
     }
 
     render() {
+        var profile = this.state.profile;
+        if (profile === null) { // TODO: Is there a better way of doing this?
+            return (<div>Loading...</div>)
+        }
         return (
             <div>
-                You are logged in!
+                <div>
+                    Username: {profile.username}
+                </div>
+                You are logged in {profile.firstName} {profile.lastName}!
                 <button onClick={this.props.handleLogout}>Logout</button>
             </div>
         );
@@ -80,7 +112,8 @@ class App extends Component {
   render() {
       var component;
       if (this.checkLoggedIn()) {
-          component = <Profile handleLogout={this.handleLogout}/>;
+          component = <Profile handleLogout={this.handleLogout}
+                               invalidateSession={this.invalidateSession}/>;
       } else {
           component = <Login handleSubmit={this.handleLogin}/>;
       }
