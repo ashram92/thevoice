@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Login from './Login';
@@ -29,21 +29,44 @@ class Team extends Component {
         return (
 
             <div className='card team-card'>
-                <h4 className='card-header'>{this.state.name}</h4>
+                <div className='card-header'>
+                    <span className={'team-name'}>{this.state.name}</span>
+                    <div className={'team-info'}>
+                        <span>Mentor: {this.state.mentor}</span><br/>
+                        <span>Team Avg: {Math.round(this.state.averageScore)}</span>
+                    </div>
+                </div>
+
                 <div className='card-body'>
-                    <h5 className='card-title'>Mentor: {this.state.mentor}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Team Avg: {Math.round(this.state.averageScore)}</h6>
-                    <ul>
-                        {this.state.candidates.map(function(candidate, i) {
-                            return (<li key={candidate.id}><b>{candidate.name}</b> [Avg: {Math.round(candidate.average_score)}]
-                                <ul>
-                                    {candidate.activities.map(function(activity, j){
-                                       return (<li key={activity.id}>{activity.song_name} | Date: {activity.performance_date} | Avg Score: {Math.round(activity.average_score)}</li>);
+                    {this.state.candidates.map(function (candidate, i) {
+                        return (
+                            <div>
+                                <h5 className='card-title'>{candidate.name} (Avg: {Math.round(candidate.average_score)})</h5>
+                                <table className={'table table-striped'}>
+                                    <thead>
+                                    <tr>
+                                        <th scope={'col'}>Song</th>
+                                        <th scope={'col'}>Date</th>
+                                        <th scope={'col'}>Song Avg.</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {candidate.activities.map(function (activity, j) {
+                                        return (
+                                            <tr key={activity.id}>
+                                                <td>{activity.song_name}</td>
+                                                <td>{activity.performance_date}</td>
+                                                <td>{Math.round(activity.average_score)}</td>
+                                            </tr>)
                                     })}
-                                </ul>
-                            </li>);
-                        })}
-                    </ul>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )
+                    })}
+
+
                 </div>
             </div>
         )
@@ -64,7 +87,7 @@ class Profile extends Component {
 
     filterList = (event) => {
         var filteredTeams = this.state.teams;
-        filteredTeams = filteredTeams.filter(function(team){
+        filteredTeams = filteredTeams.filter(function (team) {
             return team.name.toLowerCase().search(
                 event.target.value.toLowerCase()) !== -1;
         });
@@ -93,17 +116,17 @@ class Profile extends Component {
             }));
             return;
         }).catch(error => {
-           if (error.status === 403) {
-               alert('You are not logged in');
-               this.props.invalidateSession();
-           } else {
-               alert('Error occured! Please refresh the page');
-           }
+            if (error.status === 403) {
+                alert('You are not logged in');
+                this.props.invalidateSession();
+            } else {
+                alert('Error occured! Please refresh the page');
+            }
         });
     }
 
     render() {
-        const { profile, teams, displayedTeams } = this.state;
+        const {profile, teams, displayedTeams} = this.state;
         if (profile === null || teams === null) { // TODO: Is there a better way of doing this?
             return (<div>Loading...</div>)
         }
@@ -119,15 +142,16 @@ class Profile extends Component {
             teamsDiv = (<div>
                 <h1>Teams</h1>
                 {profile.isAdmin === true &&
-                    <div className='form-inline filter-form'>
-                        <div className='form-group'>
-                            <label className='mr-sm-2'>Filter by team name: </label>
-                            <input className="form-control"
-                                   onChange={this.filterList} type="text" />
-                        </div>
+                <div className='form-inline filter-form'>
+                    <div className='form-group'>
+                        <label className='mr-sm-2'>Filter by team
+                            name: </label>
+                        <input className="form-control"
+                               onChange={this.filterList} type="text"/>
                     </div>
+                </div>
                 }
-                {displayedTeams.map(function(team, i){
+                {displayedTeams.map(function (team, i) {
                     return <Team key={team.id}
                                  teamID={team.id}
                                  name={team.name}
@@ -139,12 +163,14 @@ class Profile extends Component {
         }
 
 
-
         return (
             <div>
                 <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-                    <span class="navbar-brand mb-0 h1 mr-auto">User: {profile.username}</span>
-                    <button className="btn btn-danger" onClick={this.props.handleLogout}>Logout</button>
+                    <span
+                        class="navbar-brand mb-0 h1 mr-auto">User: {profile.username}</span>
+                    <button className="btn btn-danger"
+                            onClick={this.props.handleLogout}>Logout
+                    </button>
                 </nav>
                 {teamsDiv}
             </div>
@@ -203,21 +229,21 @@ class App extends Component {
         );
     }
 
-  render() {
-      var component;
-      if (this.state.isLoggedIn) {
-          component = <Profile handleLogout={this.handleLogout}
-                               invalidateSession={this.invalidateSession}/>;
-      } else {
-          component = <Login handleSubmit={this.handleLogin}/>;
-      }
+    render() {
+        var component;
+        if (this.state.isLoggedIn) {
+            component = <Profile handleLogout={this.handleLogout}
+                                 invalidateSession={this.invalidateSession}/>;
+        } else {
+            component = <Login handleSubmit={this.handleLogin}/>;
+        }
 
-      return (
-          <div className="App">
-              {component}
-          </div>
-      );
-  }
+        return (
+            <div className="App">
+                {component}
+            </div>
+        );
+    }
 }
 
 export default App;
