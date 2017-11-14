@@ -114,14 +114,22 @@ class Profile extends Component {
             teamsDiv = (<div>
                 <h1>Teams</h1>
                 {profile.isAdmin === true &&
-                    <div>
-                        <label>Filter by team name: </label>
-                        <input onChange={this.filterList} type="text" />
+                    <div className='form-inline'>
+                        <div className='form-group'>
+                            <label className='mr-sm-2'>Filter by team name: </label>
+                            <input className="form-control"
+                                   onChange={this.filterList} type="text" />
+                        </div>
                     </div>
                 }
                 {displayedTeams.map(function(team, i){
-                    return <Team key={team.id} teamID={team.id} name={team.name} mentor={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
-                })};
+                    return <Team key={team.id}
+                                 teamID={team.id}
+                                 name={team.name}
+                                 mentor={team.mentor}
+                                 candidates={team.candidates}
+                                 averageScore={team.average_score}/>
+                })}
             </div>);
         }
 
@@ -129,10 +137,10 @@ class Profile extends Component {
 
         return (
             <div>
-                <div>
-                    Logged in as: {profile.username}
-                    <button className="logout-button" onClick={this.props.handleLogout}>Logout</button>
-                </div>
+                <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+                    <span class="navbar-brand mb-0 h1 mr-auto">User: {profile.username}</span>
+                    <button className="btn btn-danger" onClick={this.props.handleLogout}>Logout</button>
+                </nav>
                 {teamsDiv}
             </div>
         );
