@@ -9,13 +9,15 @@ const BASE_URL = ''; // 'http://127.0.0.1:8000';
 const LOGIN_URL = BASE_URL + '/accounts/api/login/';
 const LOGOUT_URL = BASE_URL + '/accounts/api/logout/';
 const PROFILE_URL = BASE_URL + '/accounts/api/profile/';
-const TEAMS_URL = BASE_URL + '/candidates/api/teams'
+const TEAMS_URL = BASE_URL + '/candidates/api/teams/'
+
 
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: null
+            profile: null,
+            teams: null
         };
     }
 
@@ -31,7 +33,15 @@ class Profile extends Component {
                     isMentor: response.data.is_mentor
                 }
             }));
-            console.log(this.state);
+            return axios.get(TEAMS_URL);
+
+        }).then((response) => {
+            this.setState(state => ({
+                profile: state.profile,
+                teams: response.data
+            }));
+            return;
+            console.log(this.response.data);
         }).catch(error => {
            if (error.status === 403) {
                alert('You are not logged in');
@@ -43,16 +53,17 @@ class Profile extends Component {
     }
 
     render() {
-        var profile = this.state.profile;
-        if (profile === null) { // TODO: Is there a better way of doing this?
+        const { profile, teams } = this.state;
+        if (profile === null || teams === null) { // TODO: Is there a better way of doing this?
             return (<div>Loading...</div>)
         }
         return (
             <div>
                 <div>
-                    Username: {profile.username}
+                    Username: {profile.userId}. {profile.username}
                 </div>
                 You are logged in {profile.firstName} {profile.lastName}!
+                <pre>{JSON.stringify(teams, null, 2)}</pre>
                 <button onClick={this.props.handleLogout}>Logout</button>
             </div>
         );
@@ -112,7 +123,7 @@ class App extends Component {
 
   render() {
       var component;
-      if (this.checkLoggedIn()) {
+      if (this.state.isLoggedIn) {
           component = <Profile handleLogout={this.handleLogout}
                                invalidateSession={this.invalidateSession}/>;
       } else {
