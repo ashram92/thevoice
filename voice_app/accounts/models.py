@@ -6,3 +6,7 @@ from django.db import models
 class User(AbstractUser):
 
     is_mentor = models.BooleanField(default=False)
+
+    @property
+    def fullname(self):
+        return "{} {}".format(self.first_name, self.last_name)

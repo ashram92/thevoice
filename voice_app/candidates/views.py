@@ -12,6 +12,7 @@ class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
         fields = (
+            'id',
             'song_name',
             'performance_date',
             'average_score',
@@ -45,6 +46,8 @@ class TeamSerializer(serializers.ModelSerializer):
             'candidates',
             'average_score',
         )
+
+    mentor = serializers.CharField(source='mentor.fullname')
 
 
 class TeamsView(ListAPIView):

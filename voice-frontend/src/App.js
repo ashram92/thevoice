@@ -18,7 +18,7 @@ class Team extends Component {
         this.state = {
             teamID: props.teamID,
             name: props.name,
-            mentorID: props.mentor,
+            mentor: props.mentor,
             averageScore: props.averageScore,
             candidates: props.candidates
 
@@ -28,13 +28,13 @@ class Team extends Component {
     render() {
         return (
             <div>
-                <h3>{this.state.name} [Avg: {Math.round(this.state.averageScore)}]</h3>
+                <h3>{this.state.name} [Avg: {Math.round(this.state.averageScore)}] (Mentor: {this.state.mentor})</h3>
                 <ul>
                     {this.state.candidates.map(function(candidate, i) {
-                        return (<li><b>{candidate.name}</b> [Avg: {Math.round(candidate.average_score)}]
+                        return (<li key={candidate.id}><b>{candidate.name}</b> [Avg: {Math.round(candidate.average_score)}]
                             <ul>
                                 {candidate.activities.map(function(activity, j){
-                                   return (<li>{activity.song_name} | Date: {activity.performance_date} | Avg Score: {Math.round(activity.average_score)}</li>);
+                                   return (<li key={activity.id}>{activity.song_name} | Date: {activity.performance_date} | Avg Score: {Math.round(activity.average_score)}</li>);
                                 })}
                             </ul>
                         </li>);
@@ -95,11 +95,11 @@ class Profile extends Component {
             <div>
                 <div>
                     Logged in as: {profile.username}
-                    <button class="logout-button" onClick={this.props.handleLogout}>Logout</button>
+                    <button className="logout-button" onClick={this.props.handleLogout}>Logout</button>
                 </div>
                 <h1>Teams</h1>
                 {teams.map(function(team, i){
-                    return <Team key={team.id} teamID={team.id} name={team.name} mentorID={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
+                    return <Team key={team.id} teamID={team.id} name={team.name} mentor={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
                 })}
             </div>
         );
