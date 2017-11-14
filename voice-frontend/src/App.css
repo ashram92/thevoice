@@ -1,5 +1,8 @@
 .App {
-  text-align: center;
+
+  margin: auto;
+  width: 70%;
+  padding: 10px;
 }
 
 .App-logo {
@@ -34,13 +37,24 @@
 
 .login-form {
   max-width: 400px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
+}
+
+.login-form label {
+  display: inline-block;
+}
+
+.login-form input {
+  display: inline-block;
+
 }
 
 .login-button {
   max-width: 200px;
   margin: 0 auto;
+}
+
+.logout-button {
+  float: right;
+  width: 100px;
+  height: 40px;
 }

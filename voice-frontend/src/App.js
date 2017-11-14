@@ -12,6 +12,41 @@ const PROFILE_URL = BASE_URL + '/accounts/api/profile/';
 const TEAMS_URL = BASE_URL + '/candidates/api/teams/'
 
 
+class Team extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            teamID: props.teamID,
+            name: props.name,
+            mentorID: props.mentor,
+            averageScore: props.averageScore,
+            candidates: props.candidates
+
+        };
+    }
+
+    render() {
+        return (
+            <div>
+                <h3>{this.state.name} [Avg: {Math.round(this.state.averageScore)}]</h3>
+                <ul>
+                    {this.state.candidates.map(function(candidate, i) {
+                        return (<li><b>{candidate.name}</b> [Avg: {Math.round(candidate.average_score)}]
+                            <ul>
+                                {candidate.activities.map(function(activity, j){
+                                   return (<li>{activity.song_name} | Date: {activity.performance_date} | Avg Score: {Math.round(activity.average_score)}</li>);
+                                })}
+                            </ul>
+                        </li>);
+                    })}
+                </ul>
+            </div>
+        )
+    }
+
+}
+
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -41,7 +76,6 @@ class Profile extends Component {
                 teams: response.data
             }));
             return;
-            console.log(this.response.data);
         }).catch(error => {
            if (error.status === 403) {
                alert('You are not logged in');
@@ -60,11 +94,13 @@ class Profile extends Component {
         return (
             <div>
                 <div>
-                    Username: {profile.userId}. {profile.username}
+                    Logged in as: {profile.username}
+                    <button class="logout-button" onClick={this.props.handleLogout}>Logout</button>
                 </div>
-                You are logged in {profile.firstName} {profile.lastName}!
-                <pre>{JSON.stringify(teams, null, 2)}</pre>
-                <button onClick={this.props.handleLogout}>Logout</button>
+                <h1>Teams</h1>
+                {teams.map(function(team, i){
+                    return <Team key={team.id} teamID={team.id} name={team.name} mentorID={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
+                })}
             </div>
         );
     }

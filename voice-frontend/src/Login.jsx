@@ -18,6 +18,7 @@ class Login extends React.Component {
         return (
             <div className='login-form-container'>
                 <div className='login-form'>
+                    <h2>Login:</h2>
                     <div>
                         <label>Username: </label>
                         <input
