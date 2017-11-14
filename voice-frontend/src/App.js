@@ -113,8 +113,12 @@ class Profile extends Component {
         } else {
             teamsDiv = (<div>
                 <h1>Teams</h1>
-                <label>Filter by team name: </label>
-                <input onChange={this.filterList} type="text" />
+                {profile.isAdmin === true &&
+                    <div>
+                        <label>Filter by team name: </label>
+                        <input onChange={this.filterList} type="text" />
+                    </div>
+                }
                 {displayedTeams.map(function(team, i){
                     return <Team key={team.id} teamID={team.id} name={team.name} mentor={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
                 })};
