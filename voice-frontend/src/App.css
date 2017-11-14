@@ -30,31 +30,6 @@
   to { transform: rotate(360deg); }
 }
 
-.login-form-container {
-  display: flex;
-  justify-content: center;
-}
-
-.login-form {
-  max-width: 400px;
-}
-
-.login-form label {
-  display: inline-block;
-}
-
-.login-form input {
-  display: inline-block;
-
-}
-
-.login-button {
-  max-width: 200px;
-  margin: 0 auto;
-}
-
-.logout-button {
-  float: right;
-  width: 100px;
-  height: 40px;
+.login-form-title {
+  text-align: center;
 }

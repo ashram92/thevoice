@@ -11,42 +11,45 @@ class Login extends React.Component {
     }
 
     handleSubmit = (event) => {
+        event.preventDefault();
         this.props.handleSubmit(event, this.state.username, this.state.password);
     }
 
     render() {
         return (
-            <div className='login-form-container'>
-                <div className='login-form'>
-                    <h2>Login:</h2>
-                    <div>
-                        <label>Username: </label>
-                        <input
-                            value={this.state.username}
+            <form>
+                <h1 className='login-form-title'>Login</h1>
+                <div className='form-group'>
+                    <label>Username</label>
+                    <input
+                        className='form-control'
+                        value={this.state.username}
 
-                            onChange= {(event) =>
-                                this.setState({username:event.target.value})
-                            }
+                        onChange= {(event) =>
+                            this.setState({username:event.target.value})
+                        }
 
-                            type="text"
-                        />
-                    </div>
-                    <div>
-                        <label>Password: </label>
-                        <input
-                            value={this.state.password}
-
-                            onChange= {(event) =>
-                                this.setState({password:event.target.value})
-                            }
-
-                            type="password"
-                        />
-                    </div>
-                    <button className='login-button'
-                            onClick={this.handleSubmit}>Submit</button>
+                        type="text"
+                    />
                 </div>
-            </div>
+                <div className='form-group'>
+                    <label>Password</label>
+                    <input
+                        className='form-control'
+                        value={this.state.password}
+
+                        onChange= {(event) =>
+                            this.setState({password:event.target.value})
+                        }
+
+                        type="password"
+                    />
+                </div>
+
+                <button className='btn btn-primary btn-block'
+                        onClick={this.handleSubmit}
+                        onSubmit={this.handleSubmit}>Submit</button>
+            </form>
         );
     }
 }
