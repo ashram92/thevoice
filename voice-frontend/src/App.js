@@ -91,16 +91,32 @@ class Profile extends Component {
         if (profile === null || teams === null) { // TODO: Is there a better way of doing this?
             return (<div>Loading...</div>)
         }
+
+        var teamsDiv;
+
+        if (teams.length == 0) {
+            teamsDiv = (<div>
+                <h3>You have no teams to view!</h3>
+
+            </div>);
+        } else {
+            teamsDiv = (<div>
+                <h1>Teams</h1>
+                {teams.map(function(team, i){
+                    return <Team key={team.id} teamID={team.id} name={team.name} mentor={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
+                })};
+            </div>);
+        }
+
+
+
         return (
             <div>
                 <div>
                     Logged in as: {profile.username}
                     <button className="logout-button" onClick={this.props.handleLogout}>Logout</button>
                 </div>
-                <h1>Teams</h1>
-                {teams.map(function(team, i){
-                    return <Team key={team.id} teamID={team.id} name={team.name} mentor={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
-                })}
+                {teamsDiv}
             </div>
         );
     }
