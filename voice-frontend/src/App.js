@@ -52,8 +52,18 @@ class Profile extends Component {
         super(props);
         this.state = {
             profile: null,
-            teams: null
+            teams: null,
+            displayedTeams: []
         };
+    }
+
+    filterList = (event) => {
+        var filteredTeams = this.state.teams;
+        filteredTeams = filteredTeams.filter(function(team){
+            return team.name.toLowerCase().search(
+                event.target.value.toLowerCase()) !== -1;
+        });
+        this.setState(state => ({...state, displayedTeams: filteredTeams}));
     }
 
     componentDidMount() {
@@ -73,7 +83,8 @@ class Profile extends Component {
         }).then((response) => {
             this.setState(state => ({
                 profile: state.profile,
-                teams: response.data
+                teams: response.data,
+                displayedTeams: response.data
             }));
             return;
         }).catch(error => {
@@ -87,7 +98,7 @@ class Profile extends Component {
     }
 
     render() {
-        const { profile, teams } = this.state;
+        const { profile, teams, displayedTeams } = this.state;
         if (profile === null || teams === null) { // TODO: Is there a better way of doing this?
             return (<div>Loading...</div>)
         }
@@ -102,7 +113,9 @@ class Profile extends Component {
         } else {
             teamsDiv = (<div>
                 <h1>Teams</h1>
-                {teams.map(function(team, i){
+                <label>Filter by team name: </label>
+                <input onChange={this.filterList} type="text" />
+                {displayedTeams.map(function(team, i){
                     return <Team key={team.id} teamID={team.id} name={team.name} mentor={team.mentor} candidates={team.candidates} averageScore={team.average_score}/>
                 })};
             </div>);
