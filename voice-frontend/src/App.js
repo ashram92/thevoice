@@ -27,19 +27,24 @@ class Team extends Component {
 
     render() {
         return (
-            <div>
-                <h3>{this.state.name} [Avg: {Math.round(this.state.averageScore)}] (Mentor: {this.state.mentor})</h3>
-                <ul>
-                    {this.state.candidates.map(function(candidate, i) {
-                        return (<li key={candidate.id}><b>{candidate.name}</b> [Avg: {Math.round(candidate.average_score)}]
-                            <ul>
-                                {candidate.activities.map(function(activity, j){
-                                   return (<li key={activity.id}>{activity.song_name} | Date: {activity.performance_date} | Avg Score: {Math.round(activity.average_score)}</li>);
-                                })}
-                            </ul>
-                        </li>);
-                    })}
-                </ul>
+
+            <div className='card team-card'>
+                <h4 className='card-header'>{this.state.name}</h4>
+                <div className='card-body'>
+                    <h5 className='card-title'>Mentor: {this.state.mentor}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Team Avg: {Math.round(this.state.averageScore)}</h6>
+                    <ul>
+                        {this.state.candidates.map(function(candidate, i) {
+                            return (<li key={candidate.id}><b>{candidate.name}</b> [Avg: {Math.round(candidate.average_score)}]
+                                <ul>
+                                    {candidate.activities.map(function(activity, j){
+                                       return (<li key={activity.id}>{activity.song_name} | Date: {activity.performance_date} | Avg Score: {Math.round(activity.average_score)}</li>);
+                                    })}
+                                </ul>
+                            </li>);
+                        })}
+                    </ul>
+                </div>
             </div>
         )
     }
@@ -114,7 +119,7 @@ class Profile extends Component {
             teamsDiv = (<div>
                 <h1>Teams</h1>
                 {profile.isAdmin === true &&
-                    <div className='form-inline'>
+                    <div className='form-inline filter-form'>
                         <div className='form-group'>
                             <label className='mr-sm-2'>Filter by team name: </label>
                             <input className="form-control"
