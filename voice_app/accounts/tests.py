@@ -95,15 +95,8 @@ class UserLogoutViewTestCase(APITestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_logout_works(self):
-        create_mentor('Mentor', 'Men', 'Tor', 'password')
-        r = self.client.post(
-            reverse('accounts:api_accounts:api_login'),
-            {
-                'username': 'Mentor',
-                'password': 'password'
-            })
-        self.assertEqual(r.status_code, 201)
-
+        mentor = create_mentor('Mentor', 'Men', 'Tor', 'password')
+        self.client.force_login(mentor)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
@@ -118,13 +111,7 @@ class ProfileViewTestCase(APITestCase):
 
     def test_profile_works(self):
         mentor = create_mentor('Mentor', 'Men', 'Tor', 'password')
-        self.client.post(
-            reverse('accounts:api_accounts:api_login'),
-            {
-                'username': 'Mentor',
-                'password': 'password'
-            }
-        )
+        self.client.force_login(mentor)
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
