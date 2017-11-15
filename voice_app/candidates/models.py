@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.functional import cached_property
 
 from voice_app.accounts.models import User
 
@@ -12,14 +11,12 @@ class Team(models.Model):
     name = models.CharField(max_length=255, null=False)
     mentor = models.ForeignKey(User, null=False)
 
-    #@cached_property
     def average_score(self):
         candidates = self.candidate_set.all()
         print(candidates)
         if len(candidates) == 0:
             return 0
         else:
-            print('poo1')
             return sum([c.average_score() for c in candidates]) / len(candidates)
 
 
@@ -33,14 +30,12 @@ class Candidate(models.Model):
     name = models.CharField(max_length=255, null=False)
     team = models.ForeignKey(Team, null=False)
 
-    #@cached_property
     def average_score(self):
         activities = self.activity_set.all()
         print(activities)
         if len(activities) == 0:
             return 0
         else:
-            print('poo2')
             return sum([a.average_score() for a in activities]) / len(activities)
 
 
@@ -51,14 +46,11 @@ class Activity(models.Model):
     song_name = models.CharField(max_length=255, null=False)
     performance_date = models.DateField(null=False)
 
-    #@cached_property
     def average_score(self):
         scores = self.activityscore_set.all()
-        print(scores)
         if len(scores) == 0:
             return 0
         else:
-            print('poo')
             return sum([score.score for score in scores]) / len(scores)
 
 
