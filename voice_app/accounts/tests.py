@@ -107,3 +107,33 @@ class UserLogoutViewTestCase(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
+
+class ProfileViewTestCase(APITestCase):
+
+    def setUp(self):
+        self.url = reverse('accounts:api_accounts:api_profile')
+
+    def test_url(self):
+        self.assertEqual('/accounts/api/profile/', self.url)
+
+    def test_profile_works(self):
+        mentor = create_mentor('Mentor', 'Men', 'Tor', 'password')
+        self.client.post(
+            reverse('accounts:api_accounts:api_login'),
+            {
+                'username': 'Mentor',
+                'password': 'password'
+            }
+        )
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(response.data,
+                             {
+                                 'id': mentor.id,
+                                 'username': mentor.username,
+                                 'first_name': mentor.first_name,
+                                 'last_name': mentor.last_name,
+                                 'is_admin': mentor.is_superuser,
+                                 'is_mentor': mentor.is_mentor
+                             })
