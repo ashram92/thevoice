@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework.test import APIRequestFactory, force_authenticate
 
 from voice_app.accounts.api import create_mentor
 from voice_app.accounts.models import User
@@ -73,9 +74,36 @@ class UserLoginViewTestCase(APITestCase):
         self.assertEqual(response.data, ['INVALID_CREDENTIALS'])
 
     def test_login_works(self):
-        user = create_mentor('Mentor', 'Men', 'Tor', 'password')
+        create_mentor('Mentor', 'Men', 'Tor', 'password')
         response = self.client.post(self.url, {
             'username': 'Mentor',
             'password': 'password'
         })
         self.assertEqual(response.status_code, 201)
+
+
+class UserLogoutViewTestCase(APITestCase):
+
+    def setUp(self):
+        self.url = reverse('accounts:api_accounts:api_logout')
+
+    def test_url(self):
+        self.assertEqual('/accounts/api/logout/', self.url)
+
+    def test_logout_without_logged_in(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_logout_works(self):
+        create_mentor('Mentor', 'Men', 'Tor', 'password')
+        r = self.client.post(
+            reverse('accounts:api_accounts:api_login'),
+            {
+                'username': 'Mentor',
+                'password': 'password'
+            })
+        self.assertEqual(r.status_code, 201)
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
