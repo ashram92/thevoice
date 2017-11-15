@@ -45,11 +45,14 @@ production ready app.
     - Bob: Bob | bobbrown
     - Laura: Laura | lauramitchell
     - Steve: Steve | steveclarke
+7. To run tests `python manage.py test`
 
 
 ## Things still TODO:
 
-- Unit testing backend/frontend
+- Unit testing frontend
+- Finish unittesting candidates/ backend
+- Use FactoryBoy to make unittests less verbose with common model creation
 - Clean up frontend code
 - Better error handling and UI/UX for frontend
 - Compile frontend and add to django's static to be served via django
