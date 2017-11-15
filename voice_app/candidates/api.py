@@ -40,4 +40,3 @@ def score_activity(activity, mentor, score):
         raise ValueError('Score `{}` is out of range. '
                          'Min: {} | Max: {}'.format(score, MIN_SCORE,
                                                     MAX_SCORE))
-
