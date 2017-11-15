@@ -13,7 +13,6 @@ class Team(models.Model):
 
     def average_score(self):
         candidates = self.candidate_set.all()
-        print(candidates)
         if len(candidates) == 0:
             return 0
         else:
@@ -32,7 +31,6 @@ class Candidate(models.Model):
 
     def average_score(self):
         activities = self.activity_set.all()
-        print(activities)
         if len(activities) == 0:
             return 0
         else:
